@@ -7,6 +7,7 @@ angular.module('roelvotingApp', [
   'ngRoute',
   'ui.bootstrap'
 ])
+
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({

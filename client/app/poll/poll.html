@@ -1,0 +1,25 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div ng-include="'components/header/header.html'"></div>
+
+<div class="container">
+  <ul class="list-group">
+    <li ng-show="myPolls.length === 0">You don't have any polls currently. Why don't you create one?</li>
+    <li class="list-group-item" ng-repeat="poll in myPolls">
+        <strong>{{poll.question}}</strong><br>
+          <div ng-repeat="option in poll.options">
+		        <span class="text-muted">{{option.text}}</span>
+          </div>
+
+        <a ng-click="delete(poll)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+    </li>
+  </ul>
+  <button class="btn btn-info" ng-click="newPoll()">Add Poll</button>
+  <div ng-show="addingPoll">
+  	 <input type="text" ng-model="newPoll.question">
+  	 <div ng-repeat="option in newPoll.options">
+  	 	<input  type="text" ng-model="newPoll.options[$index].text"><br/>
+  	 </div>
+    <button class="btn btn-info" ng-click="addOption()">Add Option</button>
+    <button class="btn btn-info" ng-click="savePoll()">Save Poll</button>
+  </div> 
+</div>
