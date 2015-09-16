@@ -9,7 +9,7 @@
           <div ng-repeat="option in poll.options">
 		        <span class="text-muted">{{option.text}}</span>
           </div>
-
+          <div>Permanent URL: <a href="{{myHost}}/dopoll/{{poll._id}}">{{myHost}}/dopoll/{{poll._id}}</a></div>
         <a ng-click="delete(poll)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
     </li>
   </ul>
@@ -17,9 +17,9 @@
   <div ng-show="addingPoll">
   	 <input type="text" ng-model="newPoll.question">
   	 <div ng-repeat="option in newPoll.options">
-  	 	<input  type="text" ng-model="newPoll.options[$index].text"><br/>
+  	 	<input  type="text" ng-model="option.text"><br/>
   	 </div>
-    <button class="btn btn-info" ng-click="addOption()">Add Option</button>
-    <button class="btn btn-info" ng-click="savePoll()">Save Poll</button>
+    <button class="btn btn-info" ng-enabled="newPoll.options[newPoll.options.length-1].text.length > 0" ng-click="addOption()">Add Option</button>
+    <button class="btn btn-info" ng-enabled="newPoll.options.length > 1" ng-click="savePoll()">Save Poll</button>
   </div> 
 </div>

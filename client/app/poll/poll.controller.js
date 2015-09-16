@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('roelvotingApp')
-  .controller('PollCtrl', function ($scope, Auth, $http) {
+  .controller('PollCtrl', function ($scope, Auth, $http, $location) {
 
   	 $scope.isLoggedIn = Auth.isLoggedIn;
 
@@ -12,6 +12,7 @@ angular.module('roelvotingApp')
     $scope.newPoll = {};
 
     $scope.addingPoll = false;
+    $scope.myHost =  $location.protocol()+'://'+$location.host()+':'+$location.port()+'/';
 
     $http.get('/api/polls/me/'+$scope.me.name)
       .success(function(myPolls) {
@@ -39,10 +40,14 @@ angular.module('roelvotingApp')
       if($scope.newPoll.question === null || $scope.newPoll.options.length === 0) {
         return;
       }
-      $http.post('/api/polls', $scope.newPoll);
-      $scope.myPolls.push($scope.newPoll); 
-      $scope.addingPoll = false;
-      $scope.newPoll = null;
+      $http.post('/api/polls', $scope.newPoll)
+      .then(function(response) {
+      	$scope.newPoll._id = response.data._id;
+	      $scope.myPolls.push($scope.newPoll); 
+   	   $scope.addingPoll = false;
+      	$scope.newPoll = null;
+
+      } );
     };
 
     $scope.delete = function(poll) {

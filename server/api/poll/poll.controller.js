@@ -3,15 +3,21 @@
 var _ = require('lodash');
 var Poll = require('./poll.model');
 
+
+// Add User name to the polls
+var populate = function(polls) {
+    var opts = [
+      { path: 'owner', model: 'User', select: 'name' }
+    ];
+    return Poll.populate(polls, opts);
+}
+
 // Get list of polls
 exports.index = function(req, res) {
   Poll.find({}, function (err, polls) {
     if(err) { return handleError(res, err); }
-    var opts = [
-      { path: 'owner', model: 'User', select: 'name' }
-    ];
-    var promise = Poll.populate(polls, opts);
     
+    var promise = populate(polls);
     promise.then(
       function(data) {
         return res.status(200).json(data);
@@ -23,17 +29,13 @@ exports.index = function(req, res) {
 exports.myPolls = function(req, res) {
   Poll.find({}, function (err, polls) {
     if(err) { return handleError(res, err); }
-    var opts = [
-      { path: 'owner', model: 'User', select: 'name' }
-    ];
-    var promise = Poll.populate(polls, opts);
-    
+
+    var promise = populate(polls);    
     promise.then(
       function(polls) {
         if (polls) {
             polls = polls.filter(function (poll) {
                if (!poll.owner) return false;
-               console.log('Filter: '+req.params.username+' vs. '+poll.owner.name);
                return (poll.owner.name === req.params.username);
            });
         }
@@ -48,7 +50,15 @@ exports.show = function(req, res) {
   Poll.findById(req.params.id, function (err, poll) {
     if(err) { return handleError(res, err); }
     if(!poll) { return res.status(404).send('Not Found'); }
-    return res.json(poll);
+
+    var polls = [];
+    polls.push(poll);
+    var promise = populate(polls);
+    promise.then(
+      function(polls) {
+        return res.status(200).json(polls);
+      }
+    ).end();
   });
 };
 
