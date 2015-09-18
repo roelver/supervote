@@ -1,0 +1,19 @@
+.trash , .pencil {
+   font-size: 20px;
+}
+.pencil {
+	color: #339955;
+}
+.controls {
+	position: absolute;
+	top: 10px;
+	right: 20px;
+	display: inline;
+}
+.list-group-item {
+	margin: 3px 0;
+}
+.pollform {
+	margin: 20px auto;
+	width: 500px;
+}

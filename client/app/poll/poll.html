@@ -2,24 +2,41 @@
 <div ng-include="'components/header/header.html'"></div>
 
 <div class="container">
+  <div  ng-hide="editingPoll">
   <ul class="list-group">
     <li ng-show="myPolls.length === 0">You don't have any polls currently. Why don't you create one?</li>
     <li class="list-group-item" ng-repeat="poll in myPolls">
         <strong>{{poll.question}}</strong><br>
-          <div ng-repeat="option in poll.options">
-		        <span class="text-muted">{{option.text}}</span>
-          </div>
+        <ul class="optionlist">
+          <li class="aoption" ng-repeat="option in poll.options">
+            <label>
+              <div class="bar" style="width: {{1+(option.votes / poll.totalVotes) * 600}}px;"></div>
+              <div class="question">{{option.text}}</div>
+            </label>
+          </li>  
+        </ul>
           <div>Permanent URL: <a href="{{myHost}}/dopoll/{{poll._id}}">{{myHost}}/dopoll/{{poll._id}}</a></div>
-        <a ng-click="delete(poll)" class="trash"><span class="glyphicon glyphicon-trash pull-right"></span></a>
+        <div class="controls"><a ng-click="edit(poll)" class="pencil"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a ng-click="delete(poll)" class="trash"><span class="glyphicon glyphicon-trash"></span></a></div>
     </li>
   </ul>
   <button class="btn btn-info" ng-click="newPoll()">Add Poll</button>
-  <div ng-show="addingPoll">
-  	 <input type="text" ng-model="newPoll.question">
-  	 <div ng-repeat="option in newPoll.options">
-  	 	<input  type="text" ng-model="option.text"><br/>
-  	 </div>
-    <button class="btn btn-info" ng-enabled="newPoll.options[newPoll.options.length-1].text.length > 0" ng-click="addOption()">Add Option</button>
-    <button class="btn btn-info" ng-enabled="newPoll.options.length > 1" ng-click="savePoll()">Save Poll</button>
+  </div>
+  <div ng-show="editingPoll" class="center">
+    <form name="pollForm" class="pollform"> 
+     <div class="form-group">
+        <label for="question">Question</label>
+  	    <input type="text" name="question" size="40" ng-model="currentPoll.question" required autofocus>
+        <span class="error" ng-show="myForm.input.$error.required">Required!</span>
+     </div>
+  	 <div class="form-group" ng-repeat="option in currentPoll.options">
+        <label>Option {{$index +1 }}</label>
+  	 	  <input  type="text" ng-model="option.text" size="40"><br/>
+   	 </div>
+    <button class="btn btn-info" ng-enabled="currentPoll.options[currentPoll.options.length-1].text.length > 0" ng-click="addOption()">Add Option</button>
+    <button class="btn btn-info" ng-enabled="validPoll()" ng-click="savePoll()">Save Poll</button>
+    </form>
   </div> 
 </div>
+
+<div ng-include="'components/footer/footer.html'"></div>

@@ -8,6 +8,7 @@ angular.module('roelvotingApp')
 
     $scope.allPolls = [];
 
+
     $scope.directLink = function() {
       return ($routeParams.pollid !== undefined);
     } 

@@ -50,6 +50,7 @@ angular.module('roelvotingApp', [
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
           event.preventDefault();
+          $rootScope.redirectTo = $location.url();
           $location.path('/login');
         }
       });

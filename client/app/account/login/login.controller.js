@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('roelvotingApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location) {
+  .controller('LoginCtrl', function ($scope, Auth, $location, $rootScope) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -15,7 +15,12 @@ angular.module('roelvotingApp')
         })
         .then( function() {
           // Logged in, redirect to home
-          $location.path('/');
+          if ($rootScope.redirectTo == undefined || $rootScope.redirectTo.length < 2 ) {
+              $location.path('/');
+          }
+          else {
+              $location.path($rootScope.redirectTo);
+          }
         })
         .catch( function(err) {
           $scope.errors.other = err.message;
