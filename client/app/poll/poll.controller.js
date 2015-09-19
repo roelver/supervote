@@ -52,7 +52,7 @@ angular.module('roelvotingApp')
     };
 
     $scope.validPoll = function() {
-    	if ($scope.currentPoll.question === null || $scope.currentPoll.question.length < 2) { return false;}
+    	if ($scope.currentPoll.question == undefined || $scope.currentPoll.question.length < 2) { return false;}
     	var validOptions = 0;
       for (var i=0; i< $scope.currentPoll.options.length ; i++) {
       	if ($scope.currentPoll.options[i].text !== null && $scope.currentPoll.options[i].text.length > 0) {
@@ -60,7 +60,6 @@ angular.module('roelvotingApp')
       	}
       }
       if (validOptions < 2) { return false; }
-      console.log('Valid! '+validOptions)
       return true;
     }
 
@@ -82,7 +81,7 @@ angular.module('roelvotingApp')
 		      $scope.myPolls.push($scope.currentPoll); 
     	   }
    	   $scope.editingPoll = false;
-      	$scope.currentPoll = null;
+      	$scope.currentPoll = {};
 	    	$scope.addPoll = false;
     };
 

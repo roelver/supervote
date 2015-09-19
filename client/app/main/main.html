@@ -4,8 +4,10 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <span ng-hide="isLoggedIn()" class="tiny"><a href="/login">Login</a> to vote</span>
-      <h1 class="page-header" ng-hide="directLink()">Current polls:</h1>
+      <div class="centered">
+        <h2 class="page-header" ng-hide="directLink()">Current polls</h2>
+        <span ng-hide="isLoggedIn()" class="tiny">(<a href="/login">Login</a> to vote)</span>
+      </div>
       <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 poll-list" ng-class-odd="'odd'" ng-class-even="'even'" ng-repeat="poll in allPolls">
         <h4><a role="button" href="#" data-toggle="collapse" data-target="#id{{poll._id}}">{{poll.question}}</a>&nbsp;&nbsp;&nbsp;<span class="tiny">Submitted by {{poll.owner.name}}</span></h4>
         <div class="collapse{{directLink() ? '.in' : ''}}" id="id{{poll._id}}">        
@@ -15,7 +17,7 @@
               <div class="qoption" ng-show="allowInput($parent.$index)">
                 <input type="radio" name="grp{{poll._id}}" value="{{option._id}}" ng-model="poll.selected">
               </div>
-              <div class="bar" style="width: {{1+(option.votes / poll.totalVotes) * 600}}px;"></div>
+              <div class="bar" style="width: {{1+(option.votes / poll.totalVotes) * 500}}px;"></div>
               <div class="question">{{option.text}}<span> ({{option.votes}})</span></div>
             </label>
           </li>  
